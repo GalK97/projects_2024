@@ -1,0 +1,83 @@
+---
+title: "ml4econ ex1"
+author: "Gal"
+date: "2024-06-18"
+output: html_document
+---
+
+q1:
+ ML tools have shown some incredible successes over last decades in multiple areas. It tackles both novel problems, as: Image Processing, Voice Recognition, User Recommendation, Natural Language Processing - and more classical problems like classification and regression problems. Why can't we simply apply those methods to economic issues - policy problems, for example?
+
+a1:
+Economic data, especially in macroeconomics, is often considered "small data filed", Unlike ML, which leans on large data-sets. 
+Also, in economics the focus is more on getting unbiased estimates to understand as much as possible the "real world", and find causality, while ML is mostly used for the most accurate predictions.Economists want to tell a story, especially in policy-making, which is based on unbiased estimates.the bias-variance trade-off in ML doesn't always fit well with economic needs, because a biased model can be the best for predictions, but not for the story we want to tell. Additionally, in ML we often have what we call "black boxes", making it difficult to make  any policy decisions based on it.
+
+q2:2.  Linear Regression model itself doesn't imply causality. What else is needed in order to use the regression coefficients as causal? Why is it not quite easy to get it in ML?
+
+a2: As mentioned, linear regression doesn't imply causality, but it provides estimates that, with the right methods such as adding control variables, finding an IV, or using diff-in-diff, can help establish causality. In economics, we focus on obtaining unbiased estimates by ensuring there are no omitted variables and checking robustness. In ML, achieving causality is more difficult because ML models focus on prediction accuracy rather than causal relationships, often act as black boxes, and can struggle with biases, making it hard to distinguish correlation from causation.
+
+q3,1: Due to convenience, economists mostly use linear models. Since we are going to use other structural forms, let's discuss those assumptions explicitly. It'll give us better understanding of the differences among models.
+a.What is the intuitive meaning of the linearity assumption?
+
+a3,a:
+The linearity assumption means that the relationship between the independent and dependent variables can be represented by a straight line. It implies that a one-unit change in an independent variable results in a constant change in the dependent variable, regardless of the level of the independent variable. This simplifies the model and interpretation but might miss more complex, nonlinear relationships in the data.
+
+
+b.  What is the intuitive meaning of the separability assumption?
+
+3.b:
+The separability assumption implies that the effect of each variable on the dependent variable in a regression is independent of the other variables. For example, if I have this regression:
+inflation ~ wage_growth + oil_prices + ils/dollar
+the effect of each variable (wage growth, oil prices, ils/dollar) on inflation is independent of the other variables. This means that the impact of wage growth on inflation does not affect or depend on oil prices or ils/dollar and so on. it's a strong asusmption, and we see that in "real life data" things aren't really like that. 
+
+3.c
+it means X s normally distributed around 𝜇, and spreads with σ his assumption ensures that all coefficients are unbiased and normally distributed, making it easier to perform hypothesis testing.
+
+aprt 2: R
+1. install packages:
+```{r}
+library(tidyverse)
+library(kableExtra) 
+```
+
+
+
+```{r}
+iris %>% 
+  select(c(starts_with("Sepal"), Species)) %>% 
+  group_by(Species) %>% 
+  summarise(Average_Sepal_Length = mean(Sepal.Length)) %>% 
+  kable() %>%
+  kable_styling()
+
+```
+```{r}
+mtcars %>% 
+  mutate(cyl = as_factor(cyl)) %>% 
+  ggplot(aes(x = hp, y = mpg, color = cyl)) +
+  geom_point()+ 
+  geom_smooth(method="lm", size=1)
+```
+
+
+
+git:
+```{r}
+install.packages("usethis")
+install.packages("git2r")
+library(usethis)
+library(git2r)
+
+git2r::init()
+
+use_git_config(
+  scope = "project",
+  user.name = "Gal Katz",
+  user.email = "galk9132@gmail.com"
+)
+
+```
+
+++ uploaded to github
+
+
